@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Makassar');
 // Katedral/admin/includes/db_connect.php
 
 $host = "localhost";

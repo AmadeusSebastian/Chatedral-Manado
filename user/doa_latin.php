@@ -76,26 +76,28 @@ $doa_aktif = isset($_GET['doa']) ? $_GET['doa'] : '';
 $nyanyian_aktif = isset($_GET['nyanyian']) ? $_GET['nyanyian'] : '';
 ?>
 
-<div class="container mt-4 mb-5">
-    <div class="row">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <div class="flex flex-col lg:flex-row gap-8">
         <!-- Konten Utama -->
-        <div class="col-lg-8 mb-4">
+        <div class="lg:w-2/3">
             
             <?php 
             // 1. JIKA USER KLIK SEBUAH DOA
             if(array_key_exists($doa_aktif, $kumpulan_doa)): 
                 $item = $kumpulan_doa[$doa_aktif];
             ?>
-                <div class="card p-4 shadow-sm border-0 text-center py-5">
-                    <h3 class="fw-bold text-dark mb-1"><?php echo $item['judul']; ?></h3>
-                    <p class="text-muted mb-4">(<?php echo $item['arti']; ?>)</p>
+                <div class="bg-white p-8 md:p-12 shadow-sm border border-gray-100 text-center rounded-xl">
+                    <h3 class="font-bold text-4xl text-katedral-charcoal mb-2 font-serif"><?php echo $item['judul']; ?></h3>
+                    <p class="text-gray-500 mb-8">(<?php echo $item['arti']; ?>)</p>
                     
-                    <div class="p-4 bg-light rounded mx-auto border" style="font-family: 'Times New Roman', Georgia, serif; font-size: 1.25rem; color: #1a1a1a; max-width: 650px; line-height: 1.8; font-style: italic;">
+                    <div class="p-6 md:p-10 bg-katedral-cream rounded-xl mx-auto border border-gray-200 shadow-inner text-lg md:text-xl text-gray-800 max-w-2xl leading-relaxed font-latin">
                         <?php echo $item['teks']; ?>
                     </div>
 
-                    <div class="mt-5">
-                        <a href="doa_latin.php" class="btn btn-outline-dark px-4"><i class="bi bi-arrow-left"></i> Kembali ke Daftar</a>
+                    <div class="mt-10">
+                        <a href="doa_latin.php" class="inline-flex items-center justify-center px-6 py-3 border border-katedral-charcoal text-katedral-charcoal rounded-lg hover:bg-katedral-charcoal hover:text-white transition-colors font-medium">
+                            <i class="bi bi-arrow-left mr-2"></i> Kembali ke Daftar
+                        </a>
                     </div>
                 </div>
 
@@ -104,16 +106,18 @@ $nyanyian_aktif = isset($_GET['nyanyian']) ? $_GET['nyanyian'] : '';
             elseif(array_key_exists($nyanyian_aktif, $kumpulan_nyanyian)): 
                 $item = $kumpulan_nyanyian[$nyanyian_aktif];
             ?>
-                <div class="card p-4 shadow-sm border-0 text-center py-5">
-                    <h3 class="fw-bold text-dark mb-1"><?php echo $item['judul']; ?></h3>
-                    <p class="text-muted mb-4">(<?php echo $item['arti']; ?>)</p>
+                <div class="bg-white p-8 md:p-12 shadow-sm border border-gray-100 text-center rounded-xl">
+                    <h3 class="font-bold text-4xl text-katedral-charcoal mb-2 font-serif"><?php echo $item['judul']; ?></h3>
+                    <p class="text-gray-500 mb-8">(<?php echo $item['arti']; ?>)</p>
                     
-                    <div class="p-4 bg-light rounded mx-auto border" style="font-family: 'Times New Roman', Georgia, serif; font-size: 1.25rem; color: #1a1a1a; max-width: 650px; line-height: 1.8; font-style: italic;">
+                    <div class="p-6 md:p-10 bg-katedral-cream rounded-xl mx-auto border border-gray-200 shadow-inner text-lg md:text-xl text-gray-800 max-w-2xl leading-relaxed font-latin">
                         <?php echo $item['teks']; ?>
                     </div>
 
-                    <div class="mt-5">
-                        <a href="doa_latin.php" class="btn btn-outline-dark px-4"><i class="bi bi-arrow-left"></i> Kembali ke Daftar</a>
+                    <div class="mt-10">
+                        <a href="doa_latin.php" class="inline-flex items-center justify-center px-6 py-3 border border-katedral-charcoal text-katedral-charcoal rounded-lg hover:bg-katedral-charcoal hover:text-white transition-colors font-medium">
+                            <i class="bi bi-arrow-left mr-2"></i> Kembali ke Daftar
+                        </a>
                     </div>
                 </div>
 
@@ -121,37 +125,94 @@ $nyanyian_aktif = isset($_GET['nyanyian']) ? $_GET['nyanyian'] : '';
             // 3. JIKA USER BELUM KLIK APA-APA (TAMPILKAN DAFTAR SEMUA MENU)
             else: 
             ?>
-                <div class="card p-4 shadow-sm border-0 mb-4">
-                    <h3 class="fw-bold border-bottom pb-3 mb-4">Kumpulan Doa Bahasa Latin</h3>
-                    <p class="text-muted mb-4">Pilih salah satu doa di bawah ini untuk melihat teks mendarasnya :</p>
-                    <div class="list-group list-group-flush border rounded">
+                <!-- Search Box -->
+                <div class="mb-8 relative">
+                    <input type="text" id="searchDoaLatin" class="form-control w-full px-4 py-3 ps-5 border border-gray-300 rounded-xl focus:ring-katedral-gold focus:border-katedral-gold transition-colors shadow-sm" placeholder="Cari doa atau nyanyian latin...">
+                    <i class="bi bi-search absolute left-4 top-3.5 text-gray-400 text-lg" style="margin-top: 3px;"></i>
+                </div>
+
+                <div id="noResultsLatin" class="hidden text-center py-10 text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-200 mb-8">
+                    <i class="bi bi-search text-4xl mb-3 block text-gray-300"></i>
+                    <p>Doa atau nyanyian tidak ditemukan.</p>
+                </div>
+
+                <div class="bg-white p-8 shadow-sm border border-gray-100 rounded-xl mb-8" id="doaListSection">
+                    <h3 class="font-bold text-2xl border-b-2 border-katedral-charcoal pb-4 mb-6 font-serif text-katedral-charcoal">Kumpulan Doa Bahasa Latin</h3>
+                    <p class="text-gray-600 mb-6 text-lg">Pilih salah satu doa di bawah ini untuk melihat teks mendarasnya :</p>
+                    <div class="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-200">
                         <?php foreach($kumpulan_doa as $kode => $isi): ?>
-                            <a href="doa_latin.php?doa=<?php echo $kode; ?>" class="list-group-item list-group-item-action py-3">
-                                <strong><?php echo $isi['judul']; ?></strong> <span class="text-muted ms-2">(<?php echo $isi['arti']; ?>)</span>
+                            <a href="doa_latin.php?doa=<?php echo $kode; ?>" class="doa-latin-item block p-4 sm:px-6 hover:bg-gray-50 transition-colors group" data-type="doa">
+                                <strong class="doa-title text-gray-900 group-hover:text-katedral-gold transition-colors text-lg"><?php echo $isi['judul']; ?></strong> 
+                                <span class="text-gray-500 ml-2">(<?php echo $isi['arti']; ?>)</span>
                             </a>
                         <?php endforeach; ?>
                     </div>
                 </div>
 
-                <div class="card p-4 shadow-sm border-0">
-                    <h3 class="fw-bold border-bottom pb-3 mb-4">Nyanyian Liturgi Latin</h3>
-                    <p class="text-muted mb-4">Pilih salah satu madah / nyanyian di bawah ini untuk melihat liriknya :</p>
-                    <div class="list-group list-group-flush border rounded">
+                <div class="bg-white p-8 shadow-sm border border-gray-100 rounded-xl mb-8" id="nyanyianListSection">
+                    <h3 class="font-bold text-2xl border-b-2 border-katedral-charcoal pb-4 mb-6 font-serif text-katedral-charcoal">Nyanyian Liturgi Latin</h3>
+                    <p class="text-gray-600 mb-6 text-lg">Pilih salah satu madah / nyanyian di bawah ini untuk melihat liriknya :</p>
+                    <div class="border border-gray-200 rounded-xl overflow-hidden divide-y divide-gray-200">
                         <?php foreach($kumpulan_nyanyian as $kode => $isi): ?>
-                            <a href="doa_latin.php?nyanyian=<?php echo $kode; ?>" class="list-group-item list-group-item-action py-3">
-                                <strong><?php echo $isi['judul']; ?></strong> <span class="text-muted ms-2">(<?php echo $isi['arti']; ?>)</span>
+                            <a href="doa_latin.php?nyanyian=<?php echo $kode; ?>" class="doa-latin-item block p-4 sm:px-6 hover:bg-gray-50 transition-colors group" data-type="nyanyian">
+                                <strong class="doa-title text-gray-900 group-hover:text-katedral-gold transition-colors text-lg"><?php echo $isi['judul']; ?></strong> 
+                                <span class="text-gray-500 ml-2">(<?php echo $isi['arti']; ?>)</span>
                             </a>
                         <?php endforeach; ?>
                     </div>
                 </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const searchInput = document.getElementById('searchDoaLatin');
+                        const items = document.querySelectorAll('.doa-latin-item');
+                        const noResults = document.getElementById('noResultsLatin');
+                        const doaSection = document.getElementById('doaListSection');
+                        const nyanyianSection = document.getElementById('nyanyianListSection');
+
+                        if(searchInput) {
+                            searchInput.addEventListener('keyup', function() {
+                                const searchTerm = this.value.toLowerCase();
+                                let visibleDoa = 0;
+                                let visibleNyanyian = 0;
+
+                                items.forEach(function(item) {
+                                    const title = item.querySelector('.doa-title').textContent.toLowerCase();
+                                    const subtitle = item.querySelector('span').textContent.toLowerCase();
+                                    const type = item.getAttribute('data-type');
+                                    
+                                    if (title.includes(searchTerm) || subtitle.includes(searchTerm)) {
+                                        item.style.display = 'block';
+                                        if (type === 'doa') visibleDoa++;
+                                        else visibleNyanyian++;
+                                    } else {
+                                        item.style.display = 'none';
+                                    }
+                                });
+
+                                doaSection.style.display = visibleDoa > 0 ? 'block' : 'none';
+                                nyanyianSection.style.display = visibleNyanyian > 0 ? 'block' : 'none';
+
+                                if (visibleDoa === 0 && visibleNyanyian === 0) {
+                                    noResults.classList.remove('hidden');
+                                } else {
+                                    noResults.classList.add('hidden');
+                                }
+                            });
+                        }
+                    });
+                </script>
 
             <?php endif; ?>
 
         </div>
 
         <!-- Sidebar -->
-        <div class="col-lg-4">
-            <?php include 'includes/sidebar.php'; ?>
+        <div class="lg:w-1/3">
+            <?php 
+            $hide_doa_latin_sidebar = true;
+            include 'includes/sidebar.php'; 
+            ?>
         </div>
     </div>
 </div>
